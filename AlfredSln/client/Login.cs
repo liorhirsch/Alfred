@@ -20,6 +20,12 @@ namespace client
         private void button1_Click(object sender, EventArgs e)
         {
             // TODO : add cache function to save the user
+            this.Close();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
