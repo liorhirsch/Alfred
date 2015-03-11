@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAPI", "ServerAPI\ServerAPI.csproj", "{CC22BBBE-2ECC-48D3-AB2E-78325E537232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\..\..\..\Desktop\Mifgapp\Common\Common.csproj", "{6262E62B-DBC7-4E83-8FAC-31FE6B7D857F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{6262E62B-DBC7-4E83-8FAC-31FE6B7D857F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "client", "client\client.csproj", "{596602E2-60D0-43C0-A0EF-90BAF4C5098E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,10 @@ Global
 		{6262E62B-DBC7-4E83-8FAC-31FE6B7D857F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6262E62B-DBC7-4E83-8FAC-31FE6B7D857F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6262E62B-DBC7-4E83-8FAC-31FE6B7D857F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{596602E2-60D0-43C0-A0EF-90BAF4C5098E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{596602E2-60D0-43C0-A0EF-90BAF4C5098E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{596602E2-60D0-43C0-A0EF-90BAF4C5098E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{596602E2-60D0-43C0-A0EF-90BAF4C5098E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
