@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace client
 {
     public partial class MoviesList : Form
     {
-        private List<Common.Models.Movie> _listOfMovies;
+        private List<UserExperience> _listOfMovies;
 
         public MoviesList()
         {
@@ -27,10 +28,30 @@ namespace client
         private void MoviesList_Load(object sender, EventArgs e)
         {
             // Load data
-            _listOfMovies = new List<Common.Models.Movie>();
+            _listOfMovies = new List<UserExperience>()
+            {
+                new UserExperience()
+                {
+                    MyMovie = new Movie()
+                    {
+                        Name = "סרט מצחיק",
+                        Genres = new List<Genre>
+                        {
+                            new Genre()
+                            {
+                                Name = "קומדיה קומית"
+                            }
+                        },
+                        Length = 52.0
+                    }
+                }
+            };
 
-            
+            dgvMovieDiagnosis.DataSource = _listOfMovies;
+        }
 
+        private void dgvMovieDiagnosis_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }
