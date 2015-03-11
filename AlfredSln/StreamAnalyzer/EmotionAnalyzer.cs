@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,6 +65,14 @@ namespace StreamAnalyzer
             m_senseManager.Dispose();
         }
 
+        public void Dispose()
+        {
+            if (m_senseManager != null)
+            {
+                m_senseManager.Dispose();
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -74,7 +83,7 @@ namespace StreamAnalyzer
             m_senseManager.Init();
         }
 
-        private float QueryEmotionIntensity(PXCMEmotion p_objEmotion, PXCMEmotion.Emotion p_enmEmotion)
+        private double QueryEmotionIntensity(PXCMEmotion p_objEmotion, PXCMEmotion.Emotion p_enmEmotion)
         {
             PXCMEmotion.EmotionData emotionData;
 
@@ -85,6 +94,13 @@ namespace StreamAnalyzer
 
         private void ProccessStream()
         {
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node, "alfred");
+            var client = new ElasticClient(settings);
+
+            List<emotions> bulkEmotions = new List<emotions>();
+            int nFrameBulk = 0;
+            
             while (m_senseManager.AcquireFrame(true) >= pxcmStatus.PXCM_STATUS_NO_ERROR)
             {
                 m_movieEmotionData.TotalFramesInStream++;
@@ -92,21 +108,53 @@ namespace StreamAnalyzer
                 // Retrieve the emotion detection results if ready
                 PXCMEmotion emotion = m_senseManager.QueryEmotion();
 
-                Dictionary<float, PXCMEmotion.Emotion> dicEmotionIntensities = new Dictionary<float, PXCMEmotion.Emotion>();
+                Dictionary<PXCMEmotion.Emotion, double> dicEmotionIntensities = new Dictionary<PXCMEmotion.Emotion, double>();
 
                 if (emotion != null)
                 {
-                    dicEmotionIntensities.Add(QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_JOY), PXCMEmotion.Emotion.EMOTION_PRIMARY_JOY);
-                    dicEmotionIntensities.Add(QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_FEAR), PXCMEmotion.Emotion.EMOTION_PRIMARY_FEAR);
-                    dicEmotionIntensities.Add(QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_DISGUST), PXCMEmotion.Emotion.EMOTION_PRIMARY_DISGUST);
-                    dicEmotionIntensities.Add(QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_SADNESS), PXCMEmotion.Emotion.EMOTION_PRIMARY_SADNESS);
-                    dicEmotionIntensities.Add(QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_SURPRISE), PXCMEmotion.Emotion.EMOTION_PRIMARY_SURPRISE);
+                    dicEmotionIntensities.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_JOY, QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_JOY));
+                    dicEmotionIntensities.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_FEAR, QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_FEAR));
+                    dicEmotionIntensities.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_DISGUST, QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_DISGUST));
+                    dicEmotionIntensities.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_SADNESS, QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_SADNESS));
+                    dicEmotionIntensities.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_SURPRISE, QueryEmotionIntensity(emotion, PXCMEmotion.Emotion.EMOTION_PRIMARY_SURPRISE));
 
-                    float maxEmotionIntensity = dicEmotionIntensities.Keys.Max();
-
-                    if (maxEmotionIntensity > EMOTION_INTENSITY_THRESHOLD)
+                    emotions emotionInMovie = new emotions()
                     {
-                        m_movieEmotionData.TotalFramesPerEmotion[dicEmotionIntensities[maxEmotionIntensity]]++;
+                        frame = m_movieEmotionData.TotalFramesInStream,
+                        movie = "Saw",
+                        user = "",
+                        emotion = new Dictionary<string, double>()
+                        {
+                            { 
+                                "joy", 
+                                dicEmotionIntensities[PXCMEmotion.Emotion.EMOTION_PRIMARY_JOY]
+                            },
+                            { 
+                                "fear", 
+                                dicEmotionIntensities[PXCMEmotion.Emotion.EMOTION_PRIMARY_FEAR]
+                            },
+                            { 
+                                "disgust", 
+                                dicEmotionIntensities[PXCMEmotion.Emotion.EMOTION_PRIMARY_DISGUST]
+                            },
+                            { 
+                                "sadness", 
+                                dicEmotionIntensities[PXCMEmotion.Emotion.EMOTION_PRIMARY_SADNESS]
+                            },
+                            { 
+                                "suprise", 
+                                dicEmotionIntensities[PXCMEmotion.Emotion.EMOTION_PRIMARY_SURPRISE]
+                            }
+                        }
+                    };
+
+                    bulkEmotions.Add(emotionInMovie);
+                    nFrameBulk++;
+
+                    if (nFrameBulk % 500 == 0)
+                    {
+                        client.IndexMany(bulkEmotions);
+                        bulkEmotions.Clear();
                     }
                 }
 

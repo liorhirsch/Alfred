@@ -12,6 +12,7 @@ namespace StreamAnalyzer
 
         public MovieEmotionData()
         {
+            TotalFramesPerEmotion = new Dictionary<PXCMEmotion.Emotion, ulong>();
             TotalFramesPerEmotion.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_JOY, 0);
             TotalFramesPerEmotion.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_SADNESS, 0);
             TotalFramesPerEmotion.Add(PXCMEmotion.Emotion.EMOTION_PRIMARY_DISGUST, 0);
