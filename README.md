@@ -1,3 +1,6 @@
 # Alfred
 ## Info
-Alternative software to review movies automatic by Intel IV-Cam
+ Automatic review movies by Intel IV-Cam
+
+## Members
+IDF - developers
