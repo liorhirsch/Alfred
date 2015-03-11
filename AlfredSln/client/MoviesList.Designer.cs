@@ -31,7 +31,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvMovieDiagnosis = new System.Windows.Forms.DataGridView();
             this.movieName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MovieTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MovieLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,14 +41,14 @@
             this.FearPrecentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SurprisePrecentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMovieDiagnosis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dgvMovieDiagnosis
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvMovieDiagnosis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMovieDiagnosis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.movieName,
             this.MovieTags,
             this.MovieLength,
@@ -57,10 +57,11 @@
             this.DisgustPrecentage,
             this.FearPrecentage,
             this.SurprisePrecentage});
-            this.dataGridView1.Location = new System.Drawing.Point(16, 12);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(871, 299);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvMovieDiagnosis.Location = new System.Drawing.Point(16, 12);
+            this.dgvMovieDiagnosis.Name = "dgvMovieDiagnosis";
+            this.dgvMovieDiagnosis.Size = new System.Drawing.Size(871, 299);
+            this.dgvMovieDiagnosis.TabIndex = 0;
+            this.dgvMovieDiagnosis.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMovieDiagnosis_CellContentClick);
             // 
             // movieName
             // 
@@ -125,11 +126,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 323);
             this.Controls.Add(this.chart1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvMovieDiagnosis);
             this.Name = "MoviesList";
             this.Text = "MoviesList";
             this.Load += new System.EventHandler(this.MoviesList_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMovieDiagnosis)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
@@ -137,7 +138,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvMovieDiagnosis;
         private System.Windows.Forms.DataGridViewTextBoxColumn movieName;
         private System.Windows.Forms.DataGridViewTextBoxColumn MovieTags;
         private System.Windows.Forms.DataGridViewTextBoxColumn MovieLength;
