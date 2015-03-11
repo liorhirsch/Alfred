@@ -108,7 +108,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(893, 12);
+            this.chart1.Location = new System.Drawing.Point(968, 12);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
@@ -128,6 +128,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "MoviesList";
             this.Text = "MoviesList";
+            this.Load += new System.EventHandler(this.MoviesList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
